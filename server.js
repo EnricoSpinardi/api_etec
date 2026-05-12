@@ -63,4 +63,4 @@ app.get('/', (req, res)=> {
 //Inicia servidor
 app.listen(3000, () => {
     console.log("Servidor Funcionado");
-})
+});
