@@ -1,7 +1,16 @@
+
 //importa express
 const express = require('express');
+const mysql = require('mysql2')
 const app = express();
 
+//conexão mysql
+const conexao = mysql.createConnection({
+    host: 'localhost',
+    user: 'root',
+    password: '',
+    database: 'etec_api'
+});
 //cria rota GET - Principal
 app.get('/', (req, res) =>{
     //retorna json
@@ -119,6 +128,7 @@ app.get('/', (req, res)=> {
     res.send("API funcionado!");
 }); 
 */
+
 
 //Inicia servidor
 app.listen(3000, () => {
