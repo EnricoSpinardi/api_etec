@@ -11,6 +11,17 @@ const conexao = mysql.createConnection({
     password: '',
     database: 'etec_api'
 });
+
+//conecta banco
+conexao.connect((erro) => {
+    if (erro) {
+        console.log('Erro ao conectar');
+
+        return;
+    }
+
+    console.log('MySQL conectado')
+})
 //cria rota GET - Principal
 app.get('/', (req, res) =>{
     //retorna json
@@ -22,44 +33,56 @@ app.get('/', (req, res) =>{
 });
 
 app.get('/usuarios', (req, res) => {
-    const usuarios = [
-        {
-            id: 1,
-            nome: 'André',
-            idade: 23,
-            email: 'andre@gmail.com',
-            cidade: 'Sorocaba'
-        },
+    const sql = 'SELECT * FROM usuarios';
 
-        {
-            id: 2,
-            nome: 'Maria',
-            idade: 19,
-            email: 'maria@gmail.com',
-            cidade: 'Salto'
-        },
+    conexao.query(sql, (erro, resultado) => {
 
-        {
-            id: 3,
-            nome: 'Pedro',
-            idade: 45,
-            email: 'pedro@gmail.com',
-            cidade: 'São Paulo'
-        },
+        if(erro){
+            
+            console.log(erro);
 
-        {
-            id: 4,
-            nome: 'Lucas',
-            idade: 20,
-            email: 'lucas@gmail.com',
-            cidade: 'Itu'
+            return;
         }
-    ];
-
-    res.json(usuarios);
+        
+        res.json(resultado)
+    });
 });
 
-app.get('/produtos', (req, res) => {
+//POST usuarios
+app.post('/usuarios', (req, res) => {
+    const nome = req.body.nome;
+    const idade = req.body.idade;
+    const email = req.body.email;
+    const cidade = req.body.cidade;
+
+    const sql = 
+    `INSERT INTO usuarios 
+    (nome, idade, email, cidade)
+     VALUES 
+     (?, ?, ?, ?)`
+});
+
+app.post('/usuarios', (req, res) => {
+    conexao.query(
+        sql,
+
+        [nome, idade, email, cidade],
+        (erro, resultado) => {
+            if (erro){
+                console.log(erro);
+
+                return;
+            };
+            res.json({
+                mensagem: 'Usuário cadastrado com sucesso'
+            });
+        }
+    );
+});
+
+//FAZER FORMULARIO HTML 
+
+/*app.get('/produtos', (req, res) => {
     const produtos = [
         {
             id: 23,
