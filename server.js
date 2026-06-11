@@ -1,8 +1,12 @@
-
+//Enrico A. Spinardi
 //importa express
 const express = require('express');
 const mysql = require('mysql2')
+const path = require('path');
 const app = express();
+
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
 
 //conexão mysql
 const conexao = mysql.createConnection({
@@ -24,12 +28,15 @@ conexao.connect((erro) => {
 })
 //cria rota GET - Principal
 app.get('/', (req, res) =>{
+    res.sendFile(path.join(__dirname, 'index.html'));
+});
+
+app.get('/status', (req, res)=> {    
     //retorna json
     res.json({
         mensagem: 'API Funcionando',
         curso: 'ETEC DS'
     });
-
 });
 
 app.get('/usuarios', (req, res) => {
@@ -60,24 +67,28 @@ app.post('/usuarios', (req, res) => {
     (nome, idade, email, cidade)
      VALUES 
      (?, ?, ?, ?)`
-});
+     
+     conexao.query(
+         sql,
+         [nome, idade, email, cidade],
+         (erro, resultado) => {
+             if (erro){
+                 console.log(erro);
+                 
+                 return;
+                };
+                res.redirect('/');
+                /* res.json({
+                    mensagem: 'Usuário cadastrado com sucesso'
+                }); */
+            }
+        );
+    });
+        
 
-app.post('/usuarios', (req, res) => {
-    conexao.query(
-        sql,
-
-        [nome, idade, email, cidade],
-        (erro, resultado) => {
-            if (erro){
-                console.log(erro);
-
-                return;
-            };
-            res.json({
-                mensagem: 'Usuário cadastrado com sucesso'
-            });
-        }
-    );
+//Inicia servidor
+app.listen(3000, () => {
+    console.log("Servidor Funcionado");
 });
 
 //FAZER FORMULARIO HTML 
@@ -152,8 +163,3 @@ app.get('/', (req, res)=> {
 }); 
 */
 
-
-//Inicia servidor
-app.listen(3000, () => {
-    console.log("Servidor Funcionado");
-})
