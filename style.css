@@ -9,31 +9,42 @@ body{
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
+    min-height: 100vh;
 }
 
-form {
-    padding: 120px;
-    border-radius: 12px;
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
-    width: 100%;
-    max-width: 400px;
-}
 
 button {
     border-radius: 12px;
     font-size: 15px;
 }
 
-.container {
-
+.card-header {
+    margin: 0;
+    font-size: 2rem;
 }
 
-.form-label {
+.card-form {
+    width: 100%;
+    max-width: 500px;
+    border-radius: 15px;
+    box-shadow: 0 8px 20px rgba(0,0,0,.15);
+}
 
+.card-body {
+    margin-bottom: 20px;
 }
 
 .form-control {
-    
+    border-radius: 10px;
 }
 
+.form-control:focus {
+    border-color: #0d6efd;
+    box-shadow: 0 0 10px rgba(13,110,253,.3);
+}
+
+.btn-primary {
+    border-radius: 10px !important;
+    padding: 10px 30px;
+    font-weight: 600;
+}
